@@ -81,9 +81,28 @@ def logout_view(request):
     #{insert code to return the user to the login page using the HttpResponseRedirect module}
     return HttpResponseRedirect(reverse("login"))
 
-def concerts(request):
-    pass
-
+def concerts(request):    
+    if request.user.is_authenticated:
+        lst_of_concert = []        
+        #{insert code to get all Concerts using the Concert.objects object}
+        concert_objects = Concert.objects.all()
+        #{insert code to loop through all items in the concert_objects}:
+        for item in concert_objects:
+            print(item)
+            try:
+                status = item.attendee.filter(
+                    user=request.user).first().attending
+            except:
+                status = "-"
+            lst_of_concert.append({
+                "concert": item,
+                "status": status
+            })
+        #{insert code to render the `concerts.html` page with the data of {"concerts": lst_of_concert}}
+        return render(request, "concerts.html", {"concerts": lst_of_concert})
+    else:
+        #{insert code to redirect the user to the login page as the user is not authenticated}
+        return HttpResponseRedirect(reverse("login"))
 
 def concert_detail(request, id):
     if request.user.is_authenticated:
