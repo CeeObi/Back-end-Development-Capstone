@@ -14,8 +14,8 @@ import requests as req
 # Create your views here.
 def signup(request):
     if request.method == "POST":
-        username = request.POST['username']
-        passwrd = request.POST['password']
+        username = request.POST.get('username')
+        passwrd = request.POST.get('password')
         try:
             user = User.objects.filter(username=username).exists()            
             if user:                
@@ -23,7 +23,7 @@ def signup(request):
             else:
                 #Remmeber to use the make_password method to create the password securely
                 password=make_password(passwrd)                
-                user = User.objects.create(username=username, password=passwrd)
+                user = User.objects.create_user(username=username, password=passwrd)
                 #insert code to log in the user with the django.contrib.aut. module
                 login(request, user)
                 #insert code to return the user back to the index page
@@ -59,13 +59,13 @@ def photos(request):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST['username']
-        passwrd = request.POST['password']
+        username = request.POST.get('username')
+        passwrd = request.POST.get('password')
         try:
-            #{insert code to find the user with the username}
-            user = User.objects.filter(username=username).exists()
+            #{insert code to find the user with the username}            
+            user = User.objects.get(username=username)            
             #{insert code to check the username and password}            
-            if user.username()==username and user.password()==password:                        
+            if user.check_password(passwrd):
                 #{insert code to log in the using the django.contrib.auth module}
                 login(request, user)
                 return HttpResponseRedirect(reverse("index"))
