@@ -12,9 +12,22 @@ import requests as req
 
 
 # Create your views here.
-
 def signup(request):
-    pass
+    if request.method == "POST":
+        username = {insert code to get username from the request}
+        password = {insert code to get password from the request}
+        try:
+            user = {insert code to find user using User.objects.filter method}
+            if user:
+                return {insert code to render the signup.html page with the SignUpForm form and a message of "user already exist"}
+            else:
+                user = {insert code to create a new user using the User.objects.create method. Remmeber to use the make_password method to create the password securely}
+                {insert code to log in the user with the django.contrib.aut. module}
+                {insert code to return the user back to the index page}
+        except User.DoesNotExist:
+            return {insert code to render the 'signup.html' page with the 'SignUpForm' form}
+    return {insert code to render the 'signup.html' page with the 'SignUpForm' form}
+    return render(request, "signup.html", {"form": SignUpForm})
 
 
 def index(request):
@@ -22,15 +35,21 @@ def index(request):
 
 
 def songs(request):
-    # songs = {"songs":[]}
-    # return render(request, "songs.html", {"songs": [insert list here]})
-    pass
+    songs = {"songs":[{"id":1,"title":"duis faucibus accumsan odio curabitur convallis","lyrics":"Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis."}]}
+    return render(request, "songs.html", {"songs":songs["songs"]})
 
 
 def photos(request):
-    # photos = []
-    # return render(request, "photos.html", {"photos": photos})
-    pass
+    photos = [{
+    "id": 1,
+    "pic_url": "http://dummyimage.com/136x100.png/5fa2dd/ffffff",
+    "event_country": "United States",
+    "event_state": "District of Columbia",
+    "event_city": "Washington",
+    "event_date": "11/16/2022"
+            }]
+    return render(request, "photos.html", {"photos": photos})
+    
 
 def login_view(request):
     pass
