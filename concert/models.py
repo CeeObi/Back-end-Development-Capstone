@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -42,10 +41,8 @@ class Photo(models.Model):
     event_state = models.CharField(max_length=255)
     event_city = models.CharField(max_length=255)
     event_date = models.DateField(default=datetime.now)
-
     class Meta:
         managed = False
-
     def __str__(self):
         return self.pic_url
 
@@ -54,9 +51,7 @@ class Song(models.Model):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255)
     lyrics = models.TextField()
-
     class Meta:
         managed = False
-
     def __str__(self):
         return self.title
