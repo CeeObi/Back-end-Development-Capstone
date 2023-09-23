@@ -14,19 +14,25 @@ import requests as req
 # Create your views here.
 def signup(request):
     if request.method == "POST":
-        username = {insert code to get username from the request}
-        password = {insert code to get password from the request}
+        username = request.POST['username']
+        passwrd = request.POST['password']
         try:
-            user = {insert code to find user using User.objects.filter method}
-            if user:
-                return {insert code to render the signup.html page with the SignUpForm form and a message of "user already exist"}
+            user = User.objects.filter(username=username).exists()
+            if user:                
+                return render(request,'signup.html',{"form": SignUpForm, "message":"user already exist"})
             else:
-                user = {insert code to create a new user using the User.objects.create method. Remmeber to use the make_password method to create the password securely}
-                {insert code to log in the user with the django.contrib.aut. module}
-                {insert code to return the user back to the index page}
+                #Remmeber to use the make_password method to create the password securely
+                password=make_password(passwrd)                
+                user = User.objects.create(username=username, password=passwrd)
+                #insert code to log in the user with the django.contrib.aut. module
+                login(request, user)
+                #insert code to return the user back to the index page
+                return HttpResponseRedirect(reverse("index"))
+                #return render(request, "index.html")
         except User.DoesNotExist:
-            return {insert code to render the 'signup.html' page with the 'SignUpForm' form}
-    return {insert code to render the 'signup.html' page with the 'SignUpForm' form}
+            # insert code to render the 'signup.html' page with the 'SignUpForm' form
+            return render(request, "signup.html", {"form": SignUpForm})    
+    # return {insert code to render the 'signup.html' page with the 'SignUpForm' form}
     return render(request, "signup.html", {"form": SignUpForm})
 
 

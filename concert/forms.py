@@ -11,6 +11,9 @@ class LoginForm(AuthenticationForm):
             attrs={
                 "placeholder": "Username",
                 "class": "form-control",
+                "data-toggle": "username",
+                "id": "username",
+                "name": "username"
             }
         ),
     )
@@ -41,6 +44,9 @@ class SignUpForm(AuthenticationForm):
             attrs={
                 "placeholder": "Username",
                 "class": "form-control",
+                "data-toggle": "username",
+                "id": "username",
+                "name": "username"
             }
         ),
     )
