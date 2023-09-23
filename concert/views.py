@@ -17,7 +17,7 @@ def signup(request):
         username = request.POST['username']
         passwrd = request.POST['password']
         try:
-            user = User.objects.filter(username=username).exists()
+            user = User.objects.filter(username=username).exists()            
             if user:                
                 return render(request,'signup.html',{"form": SignUpForm, "message":"user already exist"})
             else:
@@ -58,10 +58,28 @@ def photos(request):
     
 
 def login_view(request):
-    pass
+    if request.method == "POST":
+        username = request.POST['username']
+        passwrd = request.POST['password']
+        try:
+            #{insert code to find the user with the username}
+            user = User.objects.filter(username=username).exists()
+            #{insert code to check the username and password}            
+            if user.username()==username and user.password()==password:                        
+                #{insert code to log in the using the django.contrib.auth module}
+                login(request, user)
+                return HttpResponseRedirect(reverse("index"))
+        except User.DoesNotExist:
+            #{insert code to render the `login.html` method using the `LoginForm` form}
+            return render(request, "login.html", {"form": LoginForm})
+    return render(request, "login.html", {"form": LoginForm})
+    
 
 def logout_view(request):
-    pass
+    #insert code to logout the user using the django.contrib.auth module}
+    logout(request)
+    #{insert code to return the user to the login page using the HttpResponseRedirect module}
+    return HttpResponseRedirect(reverse("login"))
 
 def concerts(request):
     pass
